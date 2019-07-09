@@ -11,10 +11,10 @@ POST や PUT/PATCH 等でユーザが更新する場合は明に項目を指定�
 
 ```ruby
 ## permit で明に項目を指定する
-User.new(params[:user].permit(:name, :address))
+User.new(params.require(:user).permit(:name, :address))
 
 ## permit しないとエラーになる
-User.new(params[:user]) # => ActiveModel::ForbiddenAttributesError
+User.new(params.require(:user)) # => ActiveModel::ForbiddenAttributesError
 ```
 
 裏では `ActionController::Parameters` を `new` して、 `permitted?` でチェックしてるっぽい。
