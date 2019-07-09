@@ -25,9 +25,11 @@ User.new(name: 'ino_h', address: 'Matsue')
 
 ## もちろん自分でパラメタ作って渡すとエラー
 params = ActionController::Parameters.new(name: 'ino_h', address: 'Matsue')
+params.permitted? # => false
 User.new(params) # => ActiveModel::ForbiddenAttributesError
 
 ## permit 状態にすれば問題ない
 params.permit!
+params.permitted? # => true
 User.new(params)
 ```
