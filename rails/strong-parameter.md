@@ -24,6 +24,10 @@ User.new(params[:user]) # => ActiveModel::ForbiddenAttributesError
 User.new(name: 'ino_h', address: 'Matsue')
 
 ## もちろん自分でパラメタ作って渡すとエラー
-parameters = ActionController::Parameters.new(name: 'ino_h', address: 'Matsue')
-User.new(parameters) # => ActiveModel::ForbiddenAttributesError
+params = ActionController::Parameters.new(name: 'ino_h', address: 'Matsue')
+User.new(params) # => ActiveModel::ForbiddenAttributesError
+
+## permit 状態にすれば問題ない
+params.permit!
+User.new(params)
 ```
