@@ -44,7 +44,7 @@ RSpec.describe UserMailer do
   let(:user) { spy('user') } 
 
   before do
-    allow(User).to receive_message_chain(:new).and_return(user)
+    allow(User).to receive(:new).and_return(user)
 
     subject
   end
