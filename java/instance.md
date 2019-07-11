@@ -17,6 +17,9 @@ class Driver {
     this.name = name;
   }
 
+  /**
+   * 名前
+   */
   public String getName() {
     return this.name;
   }
@@ -28,7 +31,7 @@ class Driver {
 class Car {
   /**
    * 運転する
-   * @param Driver 運転手
+   * @param driver 運転手
    */
   void drive(driver) {
     System.out.println(driver.getName() + "は運転しています。");
