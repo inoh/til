@@ -6,7 +6,7 @@
 
 ## example
 
-Rails の Rogger を差し替えて出力先を標準出力にする場合
+Rails の Logger を差し替えて出力先を標準出力にする場合
 
 ```ruby
 config.logger = ActiveSupport::Logger.new(STDOUT)
@@ -19,19 +19,35 @@ https://github.com/ruby/logger
 - ActiveSupport の Logger  
 https://github.com/rails/rails/blob/master/activesupport/lib/active_support/logger.rb  
 
-ログの出力形式を変更する場合
+ログの出力形式を変更してファイルに出力する場合
 
 ```ruby
 #
 # Logger::Formatter を ActiveSupport で拡張したものを更に拡張し、
 #
 class CustomFormatter < ActiveSupport::Logger::SimpleFormatter
+  #
+  # エラーをカスタマイズして返す
+  #
+  # @param [String] severity エラーレベル
+  # @param [Time] timestamp タイムスタンプ
+  # @param [String] progname プログラム名
+  # @param [String] msg メッセージ
+  #
+  # @return [String] エラーメッセージ
+  #
   def call(severity, timestamp, progname, msg)
-    
+    {
+      message: message,
+      timestamp: timestamp.strftime('%Y-%m-%dT%H:%M:%S'),
+      level: severity
+    }.to_json
   end
 end
 
-logger = ActiveSupport::Logger.new(STDOUT)
-logger.formatter = CustomFormatter
-config.logger = 
+logger = ActiveSupport::Logger.new(
+  Rails.root.join('log', 'custom.log')
+)
+logger.formatter = CustomFormatter.new
+config.logger = logger
 ```
